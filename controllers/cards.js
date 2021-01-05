@@ -22,7 +22,12 @@ const createCard = (req, res) => {
 
 const deleteCard = (req, res) => {
   Card.findByIdAndRemove(req.params.cardId)
-    .then((card) => res.send({ data: card }))
+    .then((card) => {
+      if (card === null) {
+        return res.status(404).send({ message: `Нет карточки с id ${req.params.cardId}` });
+      }
+      return res.send({ data: card });
+    })
     .catch((err) => {
       if (!err.messageFormat) {
         return res.status(404).send({ message: `Нет карточки с id ${req.params.cardId}` });
@@ -33,7 +38,12 @@ const deleteCard = (req, res) => {
 
 const likeCard = (req, res) => {
   Card.findByIdAndUpdate(req.params.cardId, { $addToSet: { likes: req.user._id } }, { new: true })
-    .then((card) => res.send({ data: card }))
+    .then((card) => {
+      if (card === null) {
+        return res.status(404).send({ message: `Нет карточки с id ${req.params.cardId}` });
+      }
+      return res.send({ data: card });
+    })
     .catch((err) => {
       if (!err.messageFormat) {
         return res.status(404).send({ message: `Нет карточки с id ${req.params.cardId}` });
@@ -44,7 +54,12 @@ const likeCard = (req, res) => {
 
 const dislikeCard = (req, res) => {
   Card.findByIdAndUpdate(req.params.cardId, { $pull: { likes: req.user._id } }, { new: true })
-    .then((card) => res.send({ data: card }))
+    .then((card) => {
+      if (card === null) {
+        return res.status(404).send({ message: `Нет карточки с id ${req.params.cardId}` });
+      }
+      return res.send({ data: card });
+    })
     .catch((err) => {
       if (!err.messageFormat) {
         return res.status(404).send({ message: `Нет карточки с id ${req.params.cardId}` });

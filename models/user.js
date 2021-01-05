@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator(v) {
-        return /^http(s?)(:\/\/)((www.)?)(([^.]+)\.)?([a-zA-Z0-9\-_]+)(.com|.net|.gov|.org|.in|.ru)(\/[\S]*)/g.test(v);
+        return /^http(s?)(:\/\/)((www.)?)(([^.]+)\.)?([a-zA-Z0-9\-_]+)(.com|.net|.gov|.org|.in|.ru)(\/[\S]*)?/g.test(v);
       },
       message: 'Введите корректный URL',
     },

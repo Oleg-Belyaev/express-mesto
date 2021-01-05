@@ -8,7 +8,12 @@ const getUsers = (req, res) => {
 
 const getUser = (req, res) => {
   User.findById(req.params.userId)
-    .then((user) => res.send({ data: user }))
+    .then((user) => {
+      if (user === null) {
+        return res.status(404).send({ message: `Нет пользователя с id ${req.params.userId}` });
+      }
+      return res.send({ data: user });
+    })
     .catch((err) => {
       if (!err.messageFormat) {
         return res.status(404).send({ message: `Нет пользователя с id ${req.params.userId}` });
